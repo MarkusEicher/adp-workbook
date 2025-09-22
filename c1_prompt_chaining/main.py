@@ -1,15 +1,14 @@
 import os
-from langchain_openai import ChatOpenAI
+from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from dotenv import load_dotenv
 
 # For better security, load environment variables from a .env file
-# from dotenv import load_dotenv
-# load_dotenv()
-# Make sure your OPENAI_API_KEY is set in the .env file
+load_dotenv()
 
-# Initialize the Language Model (using ChatOpenAI is recommended)
-llm = ChatOpenAI(temperature=0)
+# Initialize the Language Model (Ollama)
+llm = OllamaLLM(model="codeqwen:7b-chat")
 
 # --- Prompt 1: Extract Information ---
 prompt_extract = ChatPromptTemplate.from_template(
@@ -36,6 +35,7 @@ full_chain = (
 
 # --- Run the Chain ---
 input_text = "The new laptop model features a 3.5 GHz octa-core processor, 16GB of RAM, and a 1TB NVMe SSD."
+# input_text = "We have two different machine types in use. One is a PC with a pentium processor, 8GB of RAM and a 2TB harddisk and the other is a laptop with 16Gig, 1TB SSD and an AMD Ryzen processor."
 
 # Execute the chain with the input text dictionary.
 final_result = full_chain.invoke({"text_input": input_text})
